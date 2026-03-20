@@ -29,7 +29,7 @@ Python 3
 
 Clone o repositório:
 
-git clone https://github.com/seu-usuario/controle-produtos-python.git
+git clone https://github.com/Arch0636/PyStock-Manager
 
 Entre na pasta:
 
