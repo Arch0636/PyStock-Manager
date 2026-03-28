@@ -3,3 +3,4 @@ pycache/
 .env
 .vscode/
 .idea/
+setup_git.bat
