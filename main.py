@@ -1,3 +1,4 @@
+#main.py
 """
 Sistema simples de controle de produtos
 
@@ -14,30 +15,38 @@ Autor: Vinicius Laguardia
 import os
 import sys
 
+from modulos.produtos import Produto
+from modulos.produtos import Estoque
+
 # --------------- configurações ------------------------- #
 adm_padrao = "adm"
 senha_padrao = "1234"
 
 contas = []
-produtos = []
+#produtos = []
 
+p1 = Produto("Arroz", "Tio João", "123456", "10/12/2026", 50)
+p2 = Produto("Feijão", "Camil", "654321", "15/05/2026", 30)
+
+Estoque.adicionar_produto(p1)
+Estoque.adicionar_produto(p2)
 
 # ------------ funções de produtos ----------------------- #
-def listar_produtos():
-    clear()
-
-    if not produtos:
-        print("Nenhum produto cadastrado.")
-    else:
-        print("Lista de produtos:\n")
-
-        for i, produto in enumerate(produtos, start=1):
-            print(f"{i}. {produto['nome']}")
-            print(f"   Código: {produto['codigo']}")
-            print(f"   Validade: {produto['validade']}")
-            print(f"   Quantidade: {produto['quantidade']}\n")
-
-    input("Pressione ENTER para voltar...")
+#def listar_produtos():
+#    clear()
+#
+#    if not produtos:
+#        print("Nenhum produto cadastrado.")
+#    else:
+#        print("Lista de produtos:\n")
+#
+#        for i, produto in enumerate(produtos, start=1):
+#            print(f"{i}. {produto['nome']}")
+#            print(f"   Código: {produto['codigo']}")
+#            print(f"   Validade: {produto['validade']}")
+#            print(f"   Quantidade: {produto['quantidade']}\n")
+#
+#    input("Pressione ENTER para voltar...")
 
 
 def adicionar_produtos():
@@ -45,24 +54,20 @@ def adicionar_produtos():
 
     try:
         nome = input("Produto: ")
-        codigo_b = int(input("Código de barras: "))
+        marca = input("Marca: ")
+        codigo_b = input("Código de barras: ")
         validade = input("Validade (DD/MM/AAAA): ")
         quantidade = int(input("Quantidade: "))
 
-        novo_produto = {
-            "nome": nome,
-            "codigo": codigo_b,
-            "validade": validade,
-            "quantidade": quantidade
-        }
+        novo_produto = Produto(nome, marca, codigo_b, validade, quantidade)
 
-        produtos.append(novo_produto)
+        Estoque.adicionar_produto(novo_produto)
 
         print("\nProduto adicionado com sucesso.")
         input("\nPressione ENTER para voltar...")
 
     except ValueError:
-        print("\nErro: insira valores numéricos válidos para código e quantidade.")
+        print("\nErro: insira um número válido para quantidade.")
         input("\nPressione ENTER para tentar novamente...")
 
 
@@ -86,7 +91,7 @@ def Dashboard():
             adicionar_produtos()
 
         elif es_d == '2':
-            listar_produtos()
+            Estoque.listar_produtos()
 
         elif es_d == 'x':
             clear()
@@ -174,35 +179,35 @@ def criar_conta():
 
 
 def menu_login():
-    clear()
+    while True:
+        clear()
 
-    print("1. Entrar")
-    print("2. Criar conta")
-    print("3. Sair\n")
+        print("1. Entrar")
+        print("2. Criar conta")
+        print("3. Sair\n")
 
-    try:
-        opcao_escolhida = int(input("Escolha uma opção: "))
+        try:
+            opcao_escolhida = int(input("Escolha uma opção: "))
 
-        if opcao_escolhida == 1:
-            if login():
-                Dashboard()
+            if opcao_escolhida == 1:
+                if login():
+                    Dashboard()
 
-        elif opcao_escolhida == 2:
-            criar_conta()
+            elif opcao_escolhida == 2:
+                criar_conta()
 
-        elif opcao_escolhida == 3:
-            clear()
-            sair()
+            elif opcao_escolhida == 3:
+                clear()
+                sair()
 
-        else:
+            else:
+                opção_invalida()
+
+        except ValueError:
             opção_invalida()
-
-    except ValueError:
-        opção_invalida()
 
 
 def main():
-    while True:
         menu_login()
 
 
