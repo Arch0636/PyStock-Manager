@@ -1,9 +1,17 @@
+import hashlib
 from terminal import clear, opcao_invalida, sair
 from listas import contas
 from banco import salvar_contas
 
+# Função auxiliar para gerar o hash da senha
+def gerar_hash(senha):
+    # Converte a string para bytes e gera o hash hexadecimal
+    return hashlib.sha256(senha.encode('utf-8')).hexdigest()
+
 adm_padrao = "adm"
-senha_padrao = "1234"
+# O ideal é não deixar a senha do admin exposta no código em texto puro.
+# Guardamos direto o hash da senha "1234".
+senha_padrao_hash = gerar_hash("1234")
 
 def login():
     while True:
@@ -13,16 +21,19 @@ def login():
 
             user_login = input("Usuário: ")
             senha_login = input("Senha: ")
+            
+            # Criptografa (gera o hash) da senha que o usuário acabou de digitar
+            senha_login_hash = gerar_hash(senha_login)
 
-            # verifica admin
-            if user_login == adm_padrao and senha_login == senha_padrao:
+            # verifica admin comparando os hashes
+            if user_login == adm_padrao and senha_login_hash == senha_padrao_hash:
                 print("\nLogin bem-sucedido!")
                 input("Pressione ENTER para continuar...")
                 return True
 
-            # verifica contas cadastradas
+            # verifica contas cadastradas comparando os hashes
             for conta in contas:
-                if conta["conta"] == user_login and conta["senha"] == senha_login:
+                if conta["conta"] == user_login and conta["senha"] == senha_login_hash:
                     print("\nLogin bem-sucedido!")
                     input("Pressione ENTER para continuar...")
                     return True
@@ -48,9 +59,12 @@ def criar_conta():
         user = input("Escolha o nome de usuário: ")
         senha = input("Escolha a senha: ")
 
+        # Criptografa a senha antes de salvar no dicionário e no banco
+        senha_hash = gerar_hash(senha)
+
         conta = {
             "conta": user,
-            "senha": senha
+            "senha": senha_hash
         }
 
         contas.append(conta)
@@ -61,7 +75,6 @@ def criar_conta():
 
     except ValueError:
         opcao_invalida()
-
 
 def menu_login():
     clear()
