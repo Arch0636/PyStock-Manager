@@ -4,3 +4,5 @@ pycache/
 .vscode/
 .idea/
 setup_git.bat
+data/save/contas.json
+data/save/save.json
