@@ -1,5 +1,6 @@
 from listas import produtos
 from terminal import clear
+from banco import salvar_produtos
 
 def listar_produtos():
     clear()
@@ -35,6 +36,8 @@ def adicionar_produtos():
         }
 
         produtos.append(novo_produto)
+        
+        salvar_produtos(produtos)
 
         print("\nProduto adicionado com sucesso.")
         input("\nPressione ENTER para voltar...")

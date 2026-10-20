@@ -10,7 +10,7 @@ Projeto educacional em Python com:
 
 Autor: Vinicius Laguardia
 """
-from src.login import menu_login
+from login import menu_login
 from dashboard import dashboard
 
 def main():

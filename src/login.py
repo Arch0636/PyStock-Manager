@@ -1,5 +1,6 @@
 from terminal import clear, opcao_invalida, sair
 from listas import contas
+from banco import salvar_contas
 
 adm_padrao = "adm"
 senha_padrao = "1234"
@@ -39,7 +40,6 @@ def login():
         except ValueError:
             opcao_invalida()
 
-
 def criar_conta():
     clear()
     print("Cadastro\n")
@@ -54,6 +54,7 @@ def criar_conta():
         }
 
         contas.append(conta)
+        salvar_contas(conta)
 
         print("\nConta criada com sucesso.")
         input("\nPressione ENTER para continuar...")
